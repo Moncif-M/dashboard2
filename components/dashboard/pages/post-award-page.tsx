@@ -11,6 +11,7 @@ import { KPICard } from "../kpi-card"
 import { GaugeChart } from "../gauge-chart"
 import type { FilterState } from "../filter-panel"
 import { vendors } from "@/lib/vendor-data"
+
 interface PostAwardPageProps {
   filters: FilterState
 }
@@ -42,11 +43,9 @@ function critTone(c: Criticality): "red" | "yellow" | "green" {
 
 function DataTable({
   title,
-  subtitle,
   rows,
 }: {
   title: string
-  subtitle?: string
   rows: Array<{
     contractor: string
     project: string
@@ -60,7 +59,6 @@ function DataTable({
     <div className="bg-card rounded-xl shadow-sm border border-border/50 overflow-hidden">
       <div className="px-4 py-3 border-b border-border/60">
         <p className="text-sm font-semibold text-foreground">{title}</p>
-        {subtitle && <p className="text-xs text-muted-foreground mt-0.5">{subtitle}</p>}
       </div>
       <div className="overflow-auto">
         <table className="w-full">
@@ -79,12 +77,8 @@ function DataTable({
               <tr key={`${r.contractor}-${idx}`} className="hover:bg-muted/20">
                 <td className="px-3 py-2 text-sm text-foreground">{r.contractor}</td>
                 <td className="px-3 py-2 text-sm text-muted-foreground">{r.project}</td>
-                <td className="px-3 py-2">
-                  <Pill label={r.status} tone={statusTone(r.status)} />
-                </td>
-                <td className="px-3 py-2">
-                  <Pill label={r.criticality} tone={critTone(r.criticality)} />
-                </td>
+                <td className="px-3 py-2"><Pill label={r.status} tone={statusTone(r.status)} /></td>
+                <td className="px-3 py-2"><Pill label={r.criticality} tone={critTone(r.criticality)} /></td>
                 <td className="px-3 py-2 text-sm text-muted-foreground">{r.discipline}</td>
                 <td className="px-3 py-2 text-sm font-semibold text-foreground text-right">{r.count}</td>
               </tr>
@@ -159,14 +153,11 @@ export function PostAwardPage({ filters }: PostAwardPageProps) {
     return "High"
   }
 
-  const topKPIs = [
+  // 4 KPI cards in a 2x2 grid (full width)
+  const kpiCards = [
     { title: "Avenants", value: sums.avenants, icon: <RotateCcw className="w-5 h-5" />, variant: "yellow" as const },
     { title: "Change Requests", value: sums.changeRequests, icon: <Scale className="w-5 h-5" />, variant: "blue" as const },
     { title: "Count of Claims", value: sums.claims, icon: <Gavel className="w-5 h-5" />, variant: "red" as const },
-  ]
-
-  const secondRow = [
-    { title: "Average Score Closed", value: `${avgScoreClosedPct}%`, icon: <Star className="w-5 h-5" />, variant: "green" as const },
     { title: "Nbre de contrat / Contractant", value: contractPerContractant, icon: <Users className="w-5 h-5" />, variant: "blue" as const },
   ]
 
@@ -194,19 +185,19 @@ export function PostAwardPage({ filters }: PostAwardPageProps) {
 
   return (
     <div className="space-y-3">
+
+      {/* 2x2 KPI cards — full width */}
+      <div className="grid grid-cols-2 gap-3">
+        {kpiCards.map((k) => (
+          <KPICard key={k.title} title={k.title} value={k.value} icon={k.icon} variant={k.variant} />
+        ))}
+      </div>
+
+      {/* 3 gauges in one row: Score Post Award MM | Score Post Award Contract | Average Score Closed */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-        {topKPIs.map((k) => (
-          <KPICard key={k.title} title={k.title} value={k.value} icon={k.icon} variant={k.variant} />
-        ))}
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-        {secondRow.map((k) => (
-          <KPICard key={k.title} title={k.title} value={k.value} icon={k.icon} variant={k.variant} />
-        ))}
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+        <div className="bg-card rounded-xl p-4 shadow-sm border border-border/50 flex items-center justify-center">
+          <GaugeChart value={avgScoreClosedPct} title="Average Score Closed" size="lg" suffix="%" />
+        </div>
         <div className="bg-card rounded-xl p-4 shadow-sm border border-border/50 flex items-center justify-center">
           <GaugeChart value={scorePostAwardMM} title="Score Post Award MM" size="lg" suffix="%" />
         </div>
@@ -215,16 +206,12 @@ export function PostAwardPage({ filters }: PostAwardPageProps) {
         </div>
       </div>
 
+      {/* NCR & QOR tables */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
-        <DataTable
-          title="NCR Count by Status / Contractor / Project"
-          rows={ncrRows}
-        />
-        <DataTable
-          title="QOR Count by Status / Contractor / Project"
-          rows={qorRows}
-        />
+        <DataTable title="NCR Count by Status / Contractor / Project" rows={ncrRows} />
+        <DataTable title="QOR Count by Status / Contractor / Project" rows={qorRows} />
       </div>
+
     </div>
   )
 }
