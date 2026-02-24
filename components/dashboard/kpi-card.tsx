@@ -61,7 +61,7 @@ export function KPICard({
   const styles = variantStyles[variant]
 
   return (
-    <div className={cn("rounded-xl p-4 shadow-sm border border-border/50 relative overflow-hidden", styles.bg)}>
+    <div className={cn("rounded-xl p-4 shadow-sm border border-border/50 relative overflow-hidden h-full", styles.bg)}>
       <div className={cn("absolute top-0 right-0 w-24 h-24 rounded-full -mr-8 -mt-8", styles.accent)} />
       <div className="relative">
         <p className="text-sm text-muted-foreground font-medium">{title}</p>

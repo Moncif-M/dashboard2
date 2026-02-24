@@ -125,46 +125,6 @@ export function PreAwardPage({ filters }: PreAwardPageProps) {
         ? "text-amber-700"
         : "text-red-700"
 
-  const kpis = [
-    {
-      title: "Vendor Global Risk",
-      value: riskLabelFromValue(Math.round(sum.risk / count)),
-      icon: <ShieldAlert className="w-5 h-5" />,
-      variant: "yellow" as const,
-    },
-    {
-      title: "Successful Awards",
-      value: sum.successfulAwards,
-      icon: <Trophy className="w-5 h-5" />,
-      variant: "green" as const,
-    },
-    {
-      title: "Awarding Volume",
-      value: formatMillions(sum.awardingVolume),
-      icon: <Coins className="w-5 h-5" />,
-      variant: "orange" as const,
-    },
-    {
-      title: "Ongoing PO / Contracts",
-      value: sum.ongoingPO,
-      icon: <FileText className="w-5 h-5" />,
-      variant: "default" as const,
-    },
-    {
-      title: "Ongoing Bids",
-      value: sum.ongoingBids,
-      icon: <Gavel className="w-5 h-5" />,
-      variant: "default" as const,
-    },
-    {
-      title: "% of JESA Scope",
-      value: `${Math.round(sum.jesaScope / count)}%`,
-      icon: <PieChart className="w-5 h-5" />,
-      variant: "blue" as const,
-    },
-  ]
-
-  // Aggregate CA time series (per index)
   const years = ["2022", "2023", "2024", "2025", "2026"]
   const caDependanceData = years.map((year, idx) => {
     const caAvg =
@@ -181,7 +141,6 @@ export function PreAwardPage({ filters }: PreAwardPageProps) {
   ]
 
   const vendorLabel = filters.fournisseur !== "all" ? filters.fournisseur : "All vendors"
-
   const totalVendors = vendors.length
 
   const tierCounts = safe.reduce(
@@ -211,16 +170,21 @@ export function PreAwardPage({ filters }: PreAwardPageProps) {
 
   return (
     <div className="space-y-3">
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
-        {/* Vendors count card (top-left) */}
-        <KPICard
-          title="Vendors in view"
-          value={`${safe.length} / ${totalVendors}`}
-          icon={<Users className="w-5 h-5" />}
-          variant="blue"
-        />
 
-        {/* Tiering distribution card */}
+      {/* ── ROW 1: items-start → changed cards anchor to top and grow downward ── */}
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 items-start">
+
+        {/* Vendors in view — taller, grows downward from top */}
+        <div className="h-36">
+          <KPICard
+            title="Vendors in view"
+            value={`${safe.length} / ${totalVendors}`}
+            icon={<Users className="w-5 h-5" />}
+            variant="blue"
+          />
+        </div>
+
+        {/* Tiering — UNCHANGED, natural height */}
         <div className="rounded-xl p-4 shadow-sm border border-border/50 bg-card relative overflow-hidden">
           <div className="absolute top-0 right-0 w-20 h-20 rounded-full -mr-8 -mt-8 bg-muted" />
           <div className="relative space-y-3">
@@ -231,9 +195,7 @@ export function PreAwardPage({ filters }: PreAwardPageProps) {
                 </div>
                 <div>
                   <p className="text-sm text-muted-foreground font-medium">Tiering</p>
-                  <p className="text-xs text-muted-foreground">
-                    Distribution of vendors
-                  </p>
+                  <p className="text-xs text-muted-foreground">Distribution of vendors</p>
                 </div>
               </div>
               <div className="text-right">
@@ -243,7 +205,6 @@ export function PreAwardPage({ filters }: PreAwardPageProps) {
                 <p className="text-xs font-semibold text-foreground">{selectedTier}</p>
               </div>
             </div>
-
             <div className="space-y-1.5 text-xs">
               <div className="flex items-center justify-between">
                 <span className="text-muted-foreground">Tier 1</span>
@@ -265,18 +226,70 @@ export function PreAwardPage({ filters }: PreAwardPageProps) {
           </div>
         </div>
 
-        {/* Remaining KPI cards */}
-        {kpis.map((k) => (
+        {/* Vendor Global Risk — taller, grows downward from top */}
+        <div className="h-36">
           <KPICard
-            key={k.title}
-            title={k.title}
-            value={k.value}
-            icon={k.icon}
-            variant={k.variant}
+            title="Vendor Global Risk"
+            value={riskLabelFromValue(Math.round(sum.risk / count))}
+            icon={<ShieldAlert className="w-5 h-5" />}
+            variant="yellow"
           />
-        ))}
+        </div>
+
+        {/* Successful Awards — taller, grows downward from top */}
+        <div className="h-36">
+          <KPICard
+            title="Successful Awards"
+            value={sum.successfulAwards}
+            icon={<Trophy className="w-5 h-5" />}
+            variant="green"
+          />
+        </div>
       </div>
 
+      {/* ── ROW 2: items-end → changed cards anchor to bottom and grow upward ── */}
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 items-end">
+
+        {/* Awarding Volume — taller, grows upward from bottom */}
+        <div className="h-36">
+          <KPICard
+            title="Awarding Volume"
+            value={formatMillions(sum.awardingVolume)}
+            icon={<Coins className="w-5 h-5" />}
+            variant="orange"
+          />
+        </div>
+
+        {/* Ongoing PO / Contracts — UNCHANGED, natural height */}
+        <KPICard
+          title="Ongoing PO / Contracts"
+          value={sum.ongoingPO}
+          icon={<FileText className="w-5 h-5" />}
+          variant="default"
+        />
+
+        {/* Ongoing Bids — taller, grows upward from bottom */}
+        <div className="h-36">
+          <KPICard
+            title="Ongoing Bids"
+            value={sum.ongoingBids}
+            icon={<Gavel className="w-5 h-5" />}
+            variant="default"
+          />
+        </div>
+
+        {/* % of JESA Scope — taller, grows upward from bottom */}
+        <div className="h-36">
+          <KPICard
+            title="% of JESA Scope"
+            value={`${Math.round(sum.jesaScope / count)}%`}
+            icon={<PieChart className="w-5 h-5" />}
+            variant="blue"
+          />
+        </div>
+      </div>
+
+      {/* ── CHARTS ROW ── */}
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-3">
         <div className="lg:col-span-2 bg-card rounded-xl p-4 shadow-sm border border-border/50 h-[340px] flex flex-col">
           <h3 className="text-sm font-semibold text-foreground mb-3 flex-shrink-0">
@@ -338,7 +351,6 @@ export function PreAwardPage({ filters }: PreAwardPageProps) {
 
         <div className="bg-card rounded-xl p-4 shadow-sm border border-border/50">
           <h3 className="text-sm font-semibold text-foreground mb-4">Pre Award Scores</h3>
-
           <div className="space-y-3">
             <div className="h-[220px]">
               <ResponsiveContainer width="100%" height="100%">
@@ -350,12 +362,7 @@ export function PreAwardPage({ filters }: PreAwardPageProps) {
                   <XAxis type="number" domain={[0, 100]} tick={{ fontSize: 11 }} stroke="#9ca3af" />
                   <YAxis type="category" dataKey="name" tick={{ fontSize: 11 }} stroke="#9ca3af" width={64} />
                   <Tooltip formatter={(v: number) => [`${v}%`, "Score"]} />
-                  <Bar
-                    dataKey="value"
-                    radius={[0, 6, 6, 0]}
-                    barSize={14}
-                    isAnimationActive={false}
-                  >
+                  <Bar dataKey="value" radius={[0, 6, 6, 0]} barSize={14} isAnimationActive={false}>
                     {scoreBars.map((entry) => (
                       <Cell key={entry.name} fill={scoreColor(entry.value)} />
                     ))}
@@ -363,8 +370,6 @@ export function PreAwardPage({ filters }: PreAwardPageProps) {
                 </BarChart>
               </ResponsiveContainer>
             </div>
-
-            {/* removed helper text to keep the card clean */}
           </div>
         </div>
       </div>
