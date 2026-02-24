@@ -40,6 +40,7 @@ function riskLabelFromValue(v: number) {
 }
 
 function scoreColor(score: number) {
+  if (score > 100) return "#3b82f6"
   if (score >= 80) return "#10b981"
   if (score >= 60) return "#f59e0b"
   return "#ef4444"
@@ -175,7 +176,7 @@ export function PreAwardPage({ filters }: PreAwardPageProps) {
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 items-start">
 
         {/* Vendors in view — taller, grows downward from top */}
-        <div className="h-36">
+        <div className="h-44">
           <KPICard
             title="Vendors in view"
             value={`${safe.length} / ${totalVendors}`}
@@ -227,7 +228,7 @@ export function PreAwardPage({ filters }: PreAwardPageProps) {
         </div>
 
         {/* Vendor Global Risk — taller, grows downward from top */}
-        <div className="h-36">
+        <div className="h-44">
           <KPICard
             title="Vendor Global Risk"
             value={riskLabelFromValue(Math.round(sum.risk / count))}
@@ -237,7 +238,7 @@ export function PreAwardPage({ filters }: PreAwardPageProps) {
         </div>
 
         {/* Successful Awards — taller, grows downward from top */}
-        <div className="h-36">
+        <div className="h-44">
           <KPICard
             title="Successful Awards"
             value={sum.successfulAwards}
@@ -251,7 +252,7 @@ export function PreAwardPage({ filters }: PreAwardPageProps) {
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 items-end">
 
         {/* Awarding Volume — taller, grows upward from bottom */}
-        <div className="h-36">
+        <div className="h-44">
           <KPICard
             title="Awarding Volume"
             value={formatMillions(sum.awardingVolume)}
@@ -269,7 +270,7 @@ export function PreAwardPage({ filters }: PreAwardPageProps) {
         />
 
         {/* Ongoing Bids — taller, grows upward from bottom */}
-        <div className="h-36">
+        <div className="h-44">
           <KPICard
             title="Ongoing Bids"
             value={sum.ongoingBids}
@@ -279,7 +280,7 @@ export function PreAwardPage({ filters }: PreAwardPageProps) {
         </div>
 
         {/* % of JESA Scope — taller, grows upward from bottom */}
-        <div className="h-36">
+        <div className="h-44">
           <KPICard
             title="% of JESA Scope"
             value={`${Math.round(sum.jesaScope / count)}%`}
@@ -359,7 +360,7 @@ export function PreAwardPage({ filters }: PreAwardPageProps) {
                   layout="vertical"
                   margin={{ left: 8, right: 6, top: 10, bottom: 10 }}
                 >
-                  <XAxis type="number" domain={[0, 100]} tick={{ fontSize: 11 }} stroke="#9ca3af" />
+                  <XAxis type="number" domain={[0, "auto"]} tick={{ fontSize: 11 }} stroke="#9ca3af" />
                   <YAxis type="category" dataKey="name" tick={{ fontSize: 11 }} stroke="#9ca3af" width={64} />
                   <Tooltip formatter={(v: number) => [`${v}%`, "Score"]} />
                   <Bar dataKey="value" radius={[0, 6, 6, 0]} barSize={14} isAnimationActive={false}>

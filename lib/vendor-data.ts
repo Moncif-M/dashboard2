@@ -26,7 +26,6 @@ export interface PreAwardKPIs {
   dependanceJesa: number
   productionCapacity: number
   openCapacity: number
-  // Pre-Award 2 KPIs
   responseRate: number
   technicalValidationRatio: number
   priceCompetitiveness: number
@@ -83,7 +82,6 @@ export interface VendorWithKPIs extends Vendor {
   materialManagement: MaterialManagementKPIs
 }
 
-// Helper function to get performance level
 export function getPerformanceLevel(value: number, thresholds: { green: number; yellow: number }): PerformanceLevel {
   if (value >= thresholds.green) return 'green'
   if (value >= thresholds.yellow) return 'yellow'
@@ -96,7 +94,6 @@ export function getInversePerformanceLevel(value: number, thresholds: { green: n
   return 'red'
 }
 
-// Mock Vendor Data
 export const vendors: VendorWithKPIs[] = [
   {
     id: 'V001',
@@ -109,7 +106,7 @@ export const vendors: VendorWithKPIs[] = [
     tiering: 'Tier 1',
     region: 'North Africa',
     preAward: {
-      ecosystemScore: 85,
+      ecosystemScore: 107,
       hseScore: 92,
       sustainabilityScore: 78,
       complianceRate: 92,
@@ -140,15 +137,7 @@ export const vendors: VendorWithKPIs[] = [
       qorCount: 2,
       ncrClosureTime: 12,
       averageScoreClosed: 4.2,
-      disciplineScores: {
-        projectControl: 88,
-        engineering: 92,
-        contract: 85,
-        cAndC: 90,
-        pmqc: 87,
-        construction: 91,
-        material: 89,
-      },
+      disciplineScores: { projectControl: 88, engineering: 92, contract: 85, cAndC: 90, pmqc: 87, construction: 91, material: 89 },
       avenantCount: 3,
       avenantPercentage: 8,
       contractsCount: 7,
@@ -179,7 +168,7 @@ export const vendors: VendorWithKPIs[] = [
     tiering: 'Tier 1',
     region: 'Europe',
     preAward: {
-      ecosystemScore: 78,
+      ecosystemScore: 101,
       hseScore: 85,
       sustainabilityScore: 82,
       complianceRate: 88,
@@ -210,15 +199,7 @@ export const vendors: VendorWithKPIs[] = [
       qorCount: 3,
       ncrClosureTime: 18,
       averageScoreClosed: 3.8,
-      disciplineScores: {
-        projectControl: 82,
-        engineering: 88,
-        contract: 78,
-        cAndC: 85,
-        pmqc: 80,
-        construction: 84,
-        material: 82,
-      },
+      disciplineScores: { projectControl: 82, engineering: 88, contract: 78, cAndC: 85, pmqc: 80, construction: 84, material: 82 },
       avenantCount: 5,
       avenantPercentage: 12,
       contractsCount: 5,
@@ -249,7 +230,7 @@ export const vendors: VendorWithKPIs[] = [
     tiering: 'Tier 2',
     region: 'Middle East',
     preAward: {
-      ecosystemScore: 62,
+      ecosystemScore: 84,
       hseScore: 68,
       sustainabilityScore: 55,
       complianceRate: 75,
@@ -280,15 +261,7 @@ export const vendors: VendorWithKPIs[] = [
       qorCount: 5,
       ncrClosureTime: 28,
       averageScoreClosed: 3.2,
-      disciplineScores: {
-        projectControl: 68,
-        engineering: 72,
-        contract: 65,
-        cAndC: 70,
-        pmqc: 62,
-        construction: 74,
-        material: 68,
-      },
+      disciplineScores: { projectControl: 68, engineering: 72, contract: 65, cAndC: 70, pmqc: 62, construction: 74, material: 68 },
       avenantCount: 8,
       avenantPercentage: 22,
       contractsCount: 4,
@@ -319,7 +292,7 @@ export const vendors: VendorWithKPIs[] = [
     tiering: 'Tier 1',
     region: 'Europe',
     preAward: {
-      ecosystemScore: 92,
+      ecosystemScore: 114,
       hseScore: 95,
       sustainabilityScore: 88,
       complianceRate: 96,
@@ -350,15 +323,7 @@ export const vendors: VendorWithKPIs[] = [
       qorCount: 1,
       ncrClosureTime: 8,
       averageScoreClosed: 4.7,
-      disciplineScores: {
-        projectControl: 94,
-        engineering: 96,
-        contract: 92,
-        cAndC: 95,
-        pmqc: 93,
-        construction: 94,
-        material: 95,
-      },
+      disciplineScores: { projectControl: 94, engineering: 96, contract: 92, cAndC: 95, pmqc: 93, construction: 94, material: 95 },
       avenantCount: 1,
       avenantPercentage: 3,
       contractsCount: 12,
@@ -389,7 +354,7 @@ export const vendors: VendorWithKPIs[] = [
     tiering: 'Tier 2',
     region: 'Middle East',
     preAward: {
-      ecosystemScore: 74,
+      ecosystemScore: 96,
       hseScore: 78,
       sustainabilityScore: 70,
       complianceRate: 84,
@@ -420,15 +385,7 @@ export const vendors: VendorWithKPIs[] = [
       qorCount: 3,
       ncrClosureTime: 20,
       averageScoreClosed: 3.6,
-      disciplineScores: {
-        projectControl: 76,
-        engineering: 80,
-        contract: 74,
-        cAndC: 78,
-        pmqc: 75,
-        construction: 77,
-        material: 79,
-      },
+      disciplineScores: { projectControl: 76, engineering: 80, contract: 74, cAndC: 78, pmqc: 75, construction: 77, material: 79 },
       avenantCount: 4,
       avenantPercentage: 15,
       contractsCount: 6,
@@ -459,7 +416,7 @@ export const vendors: VendorWithKPIs[] = [
     tiering: 'Tier 1',
     region: 'North Africa',
     preAward: {
-      ecosystemScore: 88,
+      ecosystemScore: 110,
       hseScore: 90,
       sustainabilityScore: 85,
       complianceRate: 93,
@@ -490,15 +447,7 @@ export const vendors: VendorWithKPIs[] = [
       qorCount: 2,
       ncrClosureTime: 14,
       averageScoreClosed: 4.4,
-      disciplineScores: {
-        projectControl: 90,
-        engineering: 94,
-        contract: 88,
-        cAndC: 91,
-        pmqc: 89,
-        construction: 90,
-        material: 91,
-      },
+      disciplineScores: { projectControl: 90, engineering: 94, contract: 88, cAndC: 91, pmqc: 89, construction: 90, material: 91 },
       avenantCount: 2,
       avenantPercentage: 6,
       contractsCount: 9,
@@ -529,7 +478,7 @@ export const vendors: VendorWithKPIs[] = [
     tiering: 'Tier 2',
     region: 'Middle East',
     preAward: {
-      ecosystemScore: 58,
+      ecosystemScore: 80,
       hseScore: 62,
       sustainabilityScore: 48,
       complianceRate: 65,
@@ -560,15 +509,7 @@ export const vendors: VendorWithKPIs[] = [
       qorCount: 8,
       ncrClosureTime: 35,
       averageScoreClosed: 2.8,
-      disciplineScores: {
-        projectControl: 58,
-        engineering: 62,
-        contract: 55,
-        cAndC: 60,
-        pmqc: 52,
-        construction: 65,
-        material: 58,
-      },
+      disciplineScores: { projectControl: 58, engineering: 62, contract: 55, cAndC: 60, pmqc: 52, construction: 65, material: 58 },
       avenantCount: 12,
       avenantPercentage: 35,
       contractsCount: 2,
@@ -599,7 +540,7 @@ export const vendors: VendorWithKPIs[] = [
     tiering: 'Tier 3',
     region: 'West Africa',
     preAward: {
-      ecosystemScore: 70,
+      ecosystemScore: 98,
       hseScore: 75,
       sustainabilityScore: 65,
       complianceRate: 78,
@@ -630,15 +571,7 @@ export const vendors: VendorWithKPIs[] = [
       qorCount: 4,
       ncrClosureTime: 24,
       averageScoreClosed: 3.4,
-      disciplineScores: {
-        projectControl: 72,
-        engineering: 75,
-        contract: 70,
-        cAndC: 73,
-        pmqc: 68,
-        construction: 74,
-        material: 72,
-      },
+      disciplineScores: { projectControl: 72, engineering: 75, contract: 70, cAndC: 73, pmqc: 68, construction: 74, material: 72 },
       avenantCount: 6,
       avenantPercentage: 18,
       contractsCount: 3,
@@ -658,9 +591,70 @@ export const vendors: VendorWithKPIs[] = [
       conformityData: { conformant: 315, nonConformant: 30, pending: 5 },
     },
   },
+  {
+    id: 'V009',
+    name: 'Apex Performance Group',
+    category: 'Engineering',
+    subCategory: 'Process Systems',
+    activity: 'Design & Build',
+    bu: 'BU 1',
+    project: 'Project Delta',
+    tiering: 'Tier 1',
+    region: 'Europe',
+    preAward: {
+      ecosystemScore: 118,  // above 100
+      hseScore: 124,        // above 100
+      sustainabilityScore: 97,
+      complianceRate: 99,
+      globalRiskLevel: 12,
+      traceReport: { status: 'clear', details: 'Exemplary compliance record' },
+      dbScore: { status: 'clear', score: 98, details: 'Outstanding financial health' },
+      chiffreAffaire: [28.5, 32.1, 36.8, 42.3, 48.7],
+      dependanceJesa: 5,
+      productionCapacity: 150000,
+      openCapacity: 60000,
+      responseRate: 99,
+      technicalValidationRatio: 98,
+      priceCompetitiveness: 96,
+      successfulAwards: 45,
+      awardingRate: 95,
+      responsivenesseTechnique: 1.8,
+      responsivenessSignature: 1.5,
+      jesaScope: 4,
+      projectsOngoing: 12,
+      packagesOngoing: 25,
+    },
+    postAward: {
+      changeRequestsCount: 2,
+      changeRequestsMontant: 32000,
+      claimsCount: 0,
+      ncrQorCount: 1,
+      ncrCount: 1,
+      qorCount: 0,
+      ncrClosureTime: 5,
+      averageScoreClosed: 4.9,
+      disciplineScores: { projectControl: 98, engineering: 99, contract: 96, cAndC: 97, pmqc: 95, construction: 98, material: 99 },
+      avenantCount: 0,
+      avenantPercentage: 1,
+      contractsCount: 18,
+      contractantsCount: 85,
+      reactivityLetters: 1.0,
+      guaranteeRenewalTime: 5,
+      concessionRequests: 1,
+    },
+    materialManagement: {
+      otifScore: 99,
+      plannedVsActual: { planned: 2500, actual: 2520 },
+      compliancePercent: 99,
+      qualityScore: 98,
+      ncrProcessFlow: 97,
+      fraisApproche: 1.8,
+      osdData: { over: 1, short: 0, damaged: 0 },
+      conformityData: { conformant: 2510, nonConformant: 5, pending: 5 },
+    },
+  },
 ]
 
-// Filter options
 export const categories = [...new Set(vendors.map(v => v.category))]
 export const subCategories = [...new Set(vendors.map(v => v.subCategory))]
 export const activities = [...new Set(vendors.map(v => v.activity))]
@@ -670,40 +664,33 @@ export const tierings: ('Tier 1' | 'Tier 2' | 'Tier 3')[] = ['Tier 1', 'Tier 2',
 export const regions = [...new Set(vendors.map(v => v.region))]
 export const vendorNames = vendors.map(v => v.name).sort()
 
-// KPI Thresholds for color coding
 export const kpiThresholds = {
-  // Pre-Award
   ecosystemScore: { green: 80, yellow: 60 },
   hseScore: { green: 85, yellow: 70 },
   sustainabilityScore: { green: 75, yellow: 55 },
-  globalRiskLevel: { green: 30, yellow: 50 }, // inverse - lower is better
+  globalRiskLevel: { green: 30, yellow: 50 },
   dbScore: { green: 80, yellow: 60 },
-  dependanceJesa: { green: 20, yellow: 40 }, // inverse - lower is better
+  dependanceJesa: { green: 20, yellow: 40 },
   responseRate: { green: 90, yellow: 75 },
   technicalValidationRatio: { green: 85, yellow: 70 },
   priceCompetitiveness: { green: 80, yellow: 65 },
   awardingRate: { green: 75, yellow: 55 },
-  responsivenesseTechnique: { green: 4, yellow: 7 }, // inverse - lower is better (days)
-  responsivenessSignature: { green: 3, yellow: 6 }, // inverse - lower is better (days)
-
-  // Post-Award
+  responsivenesseTechnique: { green: 4, yellow: 7 },
+  responsivenessSignature: { green: 3, yellow: 6 },
   averageScoreClosed: { green: 4.0, yellow: 3.2 },
-  ncrClosureTime: { green: 15, yellow: 25 }, // inverse
-  changeRequestsCount: { green: 8, yellow: 15 }, // inverse
-  claimsCount: { green: 3, yellow: 6 }, // inverse
-  avenantPercentage: { green: 10, yellow: 20 }, // inverse
-  reactivityLetters: { green: 3, yellow: 5 }, // inverse
-  guaranteeRenewalTime: { green: 15, yellow: 30 }, // inverse
-
-  // Material Management
+  ncrClosureTime: { green: 15, yellow: 25 },
+  changeRequestsCount: { green: 8, yellow: 15 },
+  claimsCount: { green: 3, yellow: 6 },
+  avenantPercentage: { green: 10, yellow: 20 },
+  reactivityLetters: { green: 3, yellow: 5 },
+  guaranteeRenewalTime: { green: 15, yellow: 30 },
   otifScore: { green: 90, yellow: 75 },
   compliancePercent: { green: 90, yellow: 75 },
   qualityScore: { green: 85, yellow: 70 },
   ncrProcessFlow: { green: 80, yellow: 65 },
-  fraisApproche: { green: 5, yellow: 10 }, // inverse - lower is better
+  fraisApproche: { green: 5, yellow: 10 },
 }
 
-// Aggregate KPIs for dashboard
 export function getAggregatePreAwardKPIs() {
   const total = vendors.length
   return {
