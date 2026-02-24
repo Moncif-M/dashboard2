@@ -155,10 +155,10 @@ export function PostAwardPage({ filters }: PostAwardPageProps) {
 
   // 4 KPI cards in a 2x2 grid (full width)
   const kpiCards = [
-    { title: "Avenants", value: sums.avenants, icon: <RotateCcw className="w-5 h-5" />, variant: "yellow" as const },
-    { title: "Change Requests", value: sums.changeRequests, icon: <Scale className="w-5 h-5" />, variant: "blue" as const },
+    { title: "Nbre Contractants", value: sums.contractants, icon: <Users className="w-5 h-5" />, variant: "yellow" as const },
+    { title: "Nbre de contrat", value: sums.contracts, icon: <RotateCcw className="w-5 h-5" />, variant: "blue" as const },
     { title: "Count of Claims", value: sums.claims, icon: <Gavel className="w-5 h-5" />, variant: "red" as const },
-    { title: "Nbre de contrat / Contractant", value: contractPerContractant, icon: <Users className="w-5 h-5" />, variant: "blue" as const },
+    { title: "Change Requests", value: sums.changeRequests, icon: <Scale className="w-5 h-5" />, variant: "blue" as const },
   ]
 
   const ncrRows = safe
