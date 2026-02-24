@@ -1,5 +1,5 @@
 "use client"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import {
   LayoutDashboard,
   Calendar,
@@ -26,11 +26,14 @@ export function Dashboard() {
     dateTo: "2035-12-31",
   })
 
-  const today = new Date().toLocaleDateString("en-US", {
-    month: "numeric",
-    day: "numeric",
-    year: "numeric",
-  })
+  const [today, setToday] = useState("")
+  useEffect(() => {
+    setToday(new Date().toLocaleDateString("en-US", {
+      month: "numeric",
+      day: "numeric",
+      year: "numeric",
+    }))
+  }, [])
 
   return (
     <div className="min-h-screen bg-background">
@@ -54,7 +57,7 @@ export function Dashboard() {
               </div>
             </div>
             <div className="flex items-center justify-between gap-4 md:justify-end">
-              <div className="flex items-center gap-2 text-sm text-muted-foreground">
+              <div className="flex items-center gap-2 text-sm text-muted-foreground bg-card border border-border rounded-lg px-3 py-1.5 shadow-sm">
                 <Calendar className="w-4 h-4" />
                 <span>Last refresh: {today}</span>
               </div>
