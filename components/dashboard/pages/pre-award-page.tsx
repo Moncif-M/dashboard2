@@ -270,11 +270,11 @@ export function PreAwardPage({ filters }: PreAwardPageProps) {
         />
       </div>
 
-      {/* ── CHARTS ROW ── */}
-      <div className="grid grid-cols-1 lg:grid-cols-4 gap-1.5">
+      {/* ── CHARTS ROW — 4 cols ── */}
+      <div className="grid grid-cols-4 gap-1.5">
 
-        {/* CA & JESA Dependence chart */}
-        <div className="lg:col-span-2 bg-card rounded-lg p-2 shadow-sm border border-border/50 h-[200px] flex flex-col">
+        {/* CA & JESA Dependence chart — 2 cols */}
+        <div className="col-span-2 bg-card rounded-lg p-2 shadow-sm border border-border/50 h-[240px] flex flex-col">
           <h3 className="text-xs font-semibold text-foreground mb-1 flex-shrink-0">
             Chiffre d&apos;Affaire &amp; JESA Dependence
           </h3>
@@ -294,12 +294,14 @@ export function PreAwardPage({ filters }: PreAwardPageProps) {
           </div>
         </div>
 
-        {/* Gauge — Score Pre Award */}
-        <div className="bg-card rounded-lg p-2 shadow-sm border border-border/50 flex flex-col items-center justify-between h-[200px]">
-          <div className="pt-1">
+        {/* Gauge + Overall Status — stacked in one column */}
+        <div className="flex flex-col gap-1.5 h-[240px]">
+          {/* Score Pre Award gauge */}
+          <div className="bg-card rounded-lg p-2 shadow-sm border border-border/50 flex items-center justify-center flex-1">
             <GaugeChart value={scorePreAward} title="Score Pre Award" size="sm" suffix="%" />
           </div>
-          <div className="pb-2 text-center space-y-0.5">
+          {/* Overall Status */}
+          <div className="bg-card rounded-lg p-2 shadow-sm border border-border/50 flex flex-col items-center justify-center gap-0.5">
             <p className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider">Overall Status</p>
             <p className={`text-[10px] font-semibold ${overallTextColor}`}>{vendorLabel}</p>
             <span className={`inline-flex px-3 py-1 rounded-full font-semibold text-xs ${overallTone}`}>
@@ -309,7 +311,7 @@ export function PreAwardPage({ filters }: PreAwardPageProps) {
         </div>
 
         {/* Pre Award Scores bar chart */}
-        <div className="bg-card rounded-lg p-2 shadow-sm border border-border/50 h-[200px] flex flex-col">
+        <div className="bg-card rounded-lg p-2 shadow-sm border border-border/50 h-[240px] flex flex-col">
           <h3 className="text-xs font-semibold text-foreground mb-1 flex-shrink-0">Pre Award Scores</h3>
           <div className="flex-1 min-h-0">
             <ResponsiveContainer width="100%" height="100%">
