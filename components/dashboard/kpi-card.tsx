@@ -1,5 +1,4 @@
 "use client"
-
 import type { ReactNode } from "react"
 import { cn } from "@/lib/utils"
 
@@ -35,22 +34,21 @@ export function KPICard({
   onViewAll,
 }: KPICardProps) {
   const styles = variantStyles[variant]
-
   return (
     <div className={cn("rounded-lg p-3 shadow-sm border border-border/50 relative overflow-hidden h-full", styles.bg)}>
       <div className={cn("absolute top-0 right-0 w-16 h-16 rounded-full -mr-6 -mt-6", styles.accent)} />
       <div className="relative flex flex-col justify-between h-full">
         {/* Title — top left */}
         <p className="text-xs text-muted-foreground font-medium truncate">{title}</p>
-
-        {/* Icon left + Value centred */}
-        <div className="flex items-center mt-1">
-          <div className={cn("p-1.5 rounded-md flex-shrink-0", styles.accent)}>
+        {/* Icon bottom-left + Value truly centered over full width */}
+        <div className="relative flex items-center mt-1 h-8">
+          <div className={cn("p-1.5 rounded-md flex-shrink-0 z-10", styles.accent)}>
             <div className={styles.icon}>{icon}</div>
           </div>
-          <span className="text-xl font-bold text-[#666666] flex-1 text-center">{value}</span>
+          <span className="absolute inset-0 flex items-center justify-center text-xl font-bold text-[#666666]">
+            {value}
+          </span>
         </div>
-
         {trend && (
           <p className="text-[10px] text-muted-foreground mt-1">
             <span className={trend.value >= 0 ? "text-emerald-600" : "text-red-600"}>

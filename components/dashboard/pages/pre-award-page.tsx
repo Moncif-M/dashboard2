@@ -56,6 +56,7 @@ function formatMillions(value: number) {
   return `${value.toFixed(1)}M`
 }
 
+
 export function PreAwardPage({ filters }: PreAwardPageProps) {
   const filtered = vendors.filter((v) => {
     if (filters.fournisseur !== "all" && v.name !== filters.fournisseur) return false
@@ -133,13 +134,6 @@ export function PreAwardPage({ filters }: PreAwardPageProps) {
     return { year, ca: Number(caAvg.toFixed(1)), dependance: Math.round(depAvg) }
   })
 
-  const scoreBars = [
-    { name: "Ecosystem", value: avgScores.ecosystem },
-    { name: "HSE", value: avgScores.hse },
-    { name: "Sustainability", value: avgScores.sustainability },
-    { name: "Compliance", value: avgScores.compliance },
-  ]
-
   const vendorLabel = filters.fournisseur !== "all" ? filters.fournisseur : "All vendors"
   const totalVendors = vendors.length
 
@@ -168,13 +162,16 @@ export function PreAwardPage({ filters }: PreAwardPageProps) {
   const statusLabel =
     scorePreAward >= 90 ? "Very good" : scorePreAward >= 80 ? "Good" : scorePreAward >= 60 ? "Medium" : "Low"
 
+  const riskValue = Math.round(sum.risk / count)
+  const riskLabel = riskLabelFromValue(riskValue)
+
   return (
     <div className="space-y-1.5">
 
-      {/* ── 3-COL × 3-ROW KPI GRID ── */}
-      <div className="grid grid-cols-3 gap-1.5" style={{ gridTemplateRows: "auto auto auto" }}>
+      {/* ── ROW 1: 4 KPI cards — same natural height as PostAward KPI row ── */}
+      <div className="grid grid-cols-4 gap-1.5">
 
-        {/* Row 1 Col 1 — Vendors in view */}
+        {/* Col 1 — Vendors in View */}
         <KPICard
           title="Vendors in view"
           value={`${safe.length} / ${totalVendors}`}
@@ -182,99 +179,86 @@ export function PreAwardPage({ filters }: PreAwardPageProps) {
           variant="blue"
         />
 
-        {/* Row 1+2 Col 2 — Tiering spans rows 1 & 2 */}
-        <div className="row-span-2">
-          <div className="rounded-lg p-2 shadow-sm border border-border/50 bg-card relative overflow-hidden h-full flex flex-col">
-            <div className="absolute top-0 right-0 w-16 h-16 rounded-full -mr-6 -mt-6 bg-muted" />
-            <div className="relative flex flex-col h-full">
-              {/* Header */}
-              <div className="flex items-center justify-between mb-2">
-                <div className="flex items-center gap-1.5">
-                  <div className="p-1.5 rounded-md bg-muted">
-                    <Layers className="w-3 h-3 text-muted-foreground" />
-                  </div>
-                  <div>
-                    <p className="text-xs text-muted-foreground font-medium">Tiering</p>
-                    <p className="text-[10px] text-muted-foreground">Distribution of vendors</p>
-                  </div>
-                </div>
-                <div className="text-right">
-                  <p className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider">Selected Tier</p>
-                  <p className="text-xs font-semibold text-foreground">{selectedTier}</p>
-                </div>
+        {/* Col 2 — Overall Status */}
+        <div className="bg-card rounded-lg p-3 shadow-sm border border-border/50 relative overflow-hidden h-full">
+          <div className="absolute top-0 right-0 w-16 h-16 rounded-full -mr-6 -mt-6 bg-muted" />
+          <div className="relative flex flex-col justify-between h-full">
+            <p className="text-xs text-muted-foreground font-medium">Overall Status</p>
+            <div className="relative flex items-center mt-1 h-8">
+              <div className="p-1.5 rounded-md flex-shrink-0 z-10 bg-muted">
+                <BadgeCheck className="w-4 h-4 text-muted-foreground" />
               </div>
-              {/* Tier rows — flex-1 + justify-between to fill vertical space */}
-              <div className="flex flex-col flex-1 justify-between">
-                {[
-                  { label: "Tier 1", value: tierPct.tier1 },
-                  { label: "Tier 2", value: tierPct.tier2 },
-                  { label: "Tier 3", value: tierPct.tier3 },
-                  { label: "N/A",    value: tierPct.na },
-                ].map(({ label, value }) => (
-                  <div key={label} className="flex items-center justify-between">
-                    <span className="text-sm text-muted-foreground">{label}</span>
-                    <span className="text-sm font-bold text-[#666666]">{value}%</span>
-                  </div>
-                ))}
-              </div>
+              <span className="absolute inset-0 flex flex-col items-center justify-center gap-0">
+                <span className={`text-[11px] font-semibold truncate max-w-full px-1 -mt-3 ${overallTextColor}`}>
+                  {vendorLabel}
+                </span>
+                <span className={`inline-flex px-2 py-px rounded-full font-semibold text-xs ${overallTone}`}>
+                  {statusLabel}
+                </span>
+              </span>
             </div>
           </div>
         </div>
 
-        {/* Row 1 Col 3 — Successful Awards */}
-        <KPICard
-          title="Successful Awards"
-          value={sum.successfulAwards}
-          icon={<Trophy className="w-4 h-4" />}
-          variant="green"
-        />
+        {/* Col 3 — Score Pre Award (gauge) */}
+        <div className="bg-card rounded-lg p-2 shadow-sm border border-border/50 flex items-center justify-center">
+          <GaugeChart value={scorePreAward} title="Score Pre Award" size="sm" suffix="%" />
+        </div>
 
-        {/* Row 2 Col 1 — Vendor Global Risk */}
+        {/* Col 4 — Vendor Global Risk */}
         <KPICard
           title="Vendor Global Risk"
-          value={riskLabelFromValue(Math.round(sum.risk / count))}
+          value={riskLabel}
           icon={<ShieldAlert className="w-4 h-4" />}
           variant="yellow"
         />
-
-        {/* Row 2 Col 3 — Ongoing Bids */}
-        <KPICard
-          title="Ongoing Bids"
-          value={sum.ongoingBids}
-          icon={<Gavel className="w-4 h-4" />}
-          variant="default"
-        />
-
-        {/* Row 3 Col 1 — Awarding Volume */}
-        <KPICard
-          title="Awarding Volume"
-          value={formatMillions(sum.awardingVolume)}
-          icon={<Coins className="w-4 h-4" />}
-          variant="orange"
-        />
-
-        {/* Row 3 Col 2 — Ongoing PO / Contracts */}
-        <KPICard
-          title="Ongoing PO / Contracts"
-          value={sum.ongoingPO}
-          icon={<FileText className="w-4 h-4" />}
-          variant="default"
-        />
-
-        {/* Row 3 Col 3 — % of JESA Scope */}
-        <KPICard
-          title="% of JESA Scope"
-          value={`${Math.round(sum.jesaScope / count)}%`}
-          icon={<PieChart className="w-4 h-4" />}
-          variant="blue"
-        />
       </div>
 
-      {/* ── CHARTS ROW — 4 cols ── */}
+      {/* ── ROW 2: 4 score cards only ── */}
       <div className="grid grid-cols-4 gap-1.5">
 
+        {/* HSE */}
+        <div className="bg-card rounded-lg p-2 shadow-sm border border-border/50 flex flex-col justify-between">
+          <p className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider">HSE</p>
+          <p className="text-lg font-bold" style={{ color: scoreColor(avgScores.hse) }}>{avgScores.hse}%</p>
+          <div className="h-1.5 rounded-full bg-muted overflow-hidden">
+            <div className="h-full rounded-full" style={{ width: `${Math.min(avgScores.hse, 100)}%`, backgroundColor: scoreColor(avgScores.hse) }} />
+          </div>
+        </div>
+
+        {/* Ecosystem */}
+        <div className="bg-card rounded-lg p-2 shadow-sm border border-border/50 flex flex-col justify-between">
+          <p className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider">Ecosystem</p>
+          <p className="text-lg font-bold" style={{ color: scoreColor(avgScores.ecosystem) }}>{avgScores.ecosystem}%</p>
+          <div className="h-1.5 rounded-full bg-muted overflow-hidden">
+            <div className="h-full rounded-full" style={{ width: `${Math.min(avgScores.ecosystem, 100)}%`, backgroundColor: scoreColor(avgScores.ecosystem) }} />
+          </div>
+        </div>
+
+        {/* Sustainability */}
+        <div className="bg-card rounded-lg p-2 shadow-sm border border-border/50 flex flex-col justify-between">
+          <p className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider">Sustainability</p>
+          <p className="text-lg font-bold" style={{ color: scoreColor(avgScores.sustainability) }}>{avgScores.sustainability}%</p>
+          <div className="h-1.5 rounded-full bg-muted overflow-hidden">
+            <div className="h-full rounded-full" style={{ width: `${Math.min(avgScores.sustainability, 100)}%`, backgroundColor: scoreColor(avgScores.sustainability) }} />
+          </div>
+        </div>
+
+        {/* Compliance */}
+        <div className="bg-card rounded-lg p-2 shadow-sm border border-border/50 flex flex-col justify-between">
+          <p className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider">Compliance</p>
+          <p className="text-lg font-bold" style={{ color: scoreColor(avgScores.compliance) }}>{avgScores.compliance}%</p>
+          <div className="h-1.5 rounded-full bg-muted overflow-hidden">
+            <div className="h-full rounded-full" style={{ width: `${Math.min(avgScores.compliance, 100)}%`, backgroundColor: scoreColor(avgScores.compliance) }} />
+          </div>
+        </div>
+      </div>
+
+      {/* ── ROW 3: Chart (2 cols) + 2x3 KPI cards (2 cols) ── */}
+      <div className="grid grid-cols-4 gap-1.5 h-[305px]">
+
         {/* CA & JESA Dependence chart — 2 cols */}
-        <div className="col-span-2 bg-card rounded-lg p-2 shadow-sm border border-border/50 h-[240px] flex flex-col">
+        <div className="col-span-2 bg-card rounded-lg p-2 shadow-sm border border-border/50 flex flex-col min-h-0">
           <h3 className="text-xs font-semibold text-foreground mb-1 flex-shrink-0">
             Chiffre d&apos;Affaire &amp; JESA Dependence
           </h3>
@@ -294,41 +278,80 @@ export function PreAwardPage({ filters }: PreAwardPageProps) {
           </div>
         </div>
 
-        {/* Gauge + Overall Status — stacked in one column */}
-        <div className="flex flex-col gap-1.5 h-[240px]">
-          {/* Score Pre Award gauge */}
-          <div className="bg-card rounded-lg p-2 shadow-sm border border-border/50 flex items-center justify-center flex-1">
-            <GaugeChart value={scorePreAward} title="Score Pre Award" size="sm" suffix="%" />
-          </div>
-          {/* Overall Status */}
-          <div className="bg-card rounded-lg p-2 shadow-sm border border-border/50 flex flex-col items-center justify-center gap-0.5">
-            <p className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider">Overall Status</p>
-            <p className={`text-[10px] font-semibold ${overallTextColor}`}>{vendorLabel}</p>
-            <span className={`inline-flex px-3 py-1 rounded-full font-semibold text-xs ${overallTone}`}>
-              {statusLabel}
-            </span>
-          </div>
-        </div>
+        {/* Right 2 cols: 2x3 grid of all remaining KPI cards */}
+        <div className="col-span-2 grid grid-cols-2 grid-rows-3 gap-1.5 min-h-0">
 
-        {/* Pre Award Scores bar chart */}
-        <div className="bg-card rounded-lg p-2 shadow-sm border border-border/50 h-[240px] flex flex-col">
-          <h3 className="text-xs font-semibold text-foreground mb-1 flex-shrink-0">Pre Award Scores</h3>
-          <div className="flex-1 min-h-0">
-            <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={scoreBars} layout="vertical" margin={{ left: 4, right: 4, top: 4, bottom: 4 }}>
-                <XAxis type="number" domain={[0, "auto"]} tick={{ fontSize: 9 }} stroke="#9ca3af" />
-                <YAxis type="category" dataKey="name" tick={{ fontSize: 9 }} stroke="#9ca3af" width={60} />
-                <Tooltip formatter={(v: number) => [`${v}%`, "Score"]} />
-                <Bar dataKey="value" radius={[0, 4, 4, 0]} barSize={10} isAnimationActive={false}>
-                  {scoreBars.map((entry) => (
-                    <Cell key={entry.name} fill={scoreColor(entry.value)} />
-                  ))}
-                </Bar>
-              </BarChart>
-            </ResponsiveContainer>
+          <KPICard
+            title="Successful Awards"
+            value={sum.successfulAwards}
+            icon={<Trophy className="w-4 h-4" />}
+            variant="green"
+          />
+
+          <KPICard
+            title="Ongoing Bids"
+            value={sum.ongoingBids}
+            icon={<Gavel className="w-4 h-4" />}
+            variant="default"
+          />
+
+          <KPICard
+            title="Awarding Volume"
+            value={formatMillions(sum.awardingVolume)}
+            icon={<Coins className="w-4 h-4" />}
+            variant="orange"
+          />
+
+          <KPICard
+            title="Ongoing PO / Contracts"
+            value={sum.ongoingPO}
+            icon={<FileText className="w-4 h-4" />}
+            variant="default"
+          />
+
+          <KPICard
+            title="% of JESA Scope"
+            value={`${Math.round(sum.jesaScope / count)}%`}
+            icon={<PieChart className="w-4 h-4" />}
+            variant="blue"
+          />
+
+          <div className="rounded-lg p-2 shadow-sm border border-border/50 bg-card relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-14 h-14 rounded-full -mr-5 -mt-5 bg-muted" />
+            <div className="relative flex flex-col h-full">
+              <div className="flex items-center justify-between mb-1">
+                <div className="flex items-center gap-1.5">
+                  <div className="p-1.5 rounded-md bg-muted">
+                    <Layers className="w-3 h-3 text-muted-foreground" />
+                  </div>
+                  <div>
+                    <p className="text-xs text-muted-foreground font-medium">Tiering</p>
+                    <p className="text-[10px] text-muted-foreground">Distribution</p>
+                  </div>
+                </div>
+                <div className="text-right">
+                  <p className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider">Selected</p>
+                  <p className="text-xs font-semibold text-foreground">{selectedTier}</p>
+                </div>
+              </div>
+              <div className="flex flex-col gap-px -mt-1">
+                {[
+                  { label: "Tier 1", value: tierPct.tier1 },
+                  { label: "Tier 2", value: tierPct.tier2 },
+                  { label: "Tier 3", value: tierPct.tier3 },
+                  { label: "N/A",    value: tierPct.na },
+                ].map(({ label, value }) => (
+                  <div key={label} className="flex items-center justify-between">
+                    <span className="text-[8.5px] text-muted-foreground">{label}</span>
+                    <span className="text-[8.5px] font-bold text-[#666666]">{value}%</span>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       </div>
+
     </div>
   )
 }

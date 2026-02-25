@@ -133,6 +133,7 @@ export function FilterPanel({ filters, onFilterChange }: FilterPanelProps) {
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogTrigger asChild>
         <Button
+	  suppressHydrationWarning   
           variant="outline"
           className={cn(
             "gap-2 border-primary text-primary hover:bg-primary/5",
