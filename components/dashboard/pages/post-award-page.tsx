@@ -184,27 +184,27 @@ export function PostAwardPage({ filters }: PostAwardPageProps) {
   return (
     <div className="space-y-1.5">
 
-      {/* 4-col KPI row — much more compact */}
-      <div className="grid grid-cols-4 gap-1.5">
-        {kpiCards.map((k) => (
-          <KPICard key={k.title} title={k.title} value={k.value} icon={k.icon} variant={k.variant} />
-        ))}
-      </div>
-
-      {/* 3 gauges — reduced height */}
+      {/* 3 gauges: Score Post Award MM | Score Post Award Contract | Average Score Closed */}
       <div className="grid grid-cols-3 gap-1.5">
-        <div className="bg-card rounded-lg p-1.5 shadow-sm border border-border/50 flex items-center justify-center h-[110px]">
-          <GaugeChart value={avgScoreClosedPct} title="Average Score Closed" size="sm" suffix="%" />
-        </div>
         <div className="bg-card rounded-lg p-1.5 shadow-sm border border-border/50 flex items-center justify-center h-[110px]">
           <GaugeChart value={scorePostAwardMM} title="Score Post Award MM" size="sm" suffix="%" />
         </div>
         <div className="bg-card rounded-lg p-1.5 shadow-sm border border-border/50 flex items-center justify-center h-[110px]">
           <GaugeChart value={scorePostAwardContract} title="Score Post Award Contract" size="sm" suffix="%" />
         </div>
+        <div className="bg-card rounded-lg p-1.5 shadow-sm border border-border/50 flex items-center justify-center h-[110px]">
+          <GaugeChart value={avgScoreClosedPct} title="Average Score Closed" size="sm" suffix="%" />
+        </div>
       </div>
 
-      {/* NCR & QOR tables — taller, sticky headers, internally scrollable */}
+      {/* 4-col KPI row */}
+      <div className="grid grid-cols-4 gap-1.5">
+        {kpiCards.map((k) => (
+          <KPICard key={k.title} title={k.title} value={k.value} icon={k.icon} variant={k.variant} />
+        ))}
+      </div>
+
+      {/* NCR & QOR tables */}
       <div className="grid grid-cols-2 gap-1.5">
         <div className="h-[280px] flex flex-col">
           <DataTable title="NCR Count by Status / Contractor / Project" rows={ncrRows} />

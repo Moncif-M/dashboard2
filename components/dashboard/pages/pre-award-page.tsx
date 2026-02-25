@@ -171,13 +171,10 @@ export function PreAwardPage({ filters }: PreAwardPageProps) {
       {/* ── ROW 1: 4 KPI cards — same natural height as PostAward KPI row ── */}
       <div className="grid grid-cols-4 gap-1.5">
 
-        {/* Col 1 — Vendors in View */}
-        <KPICard
-          title="Vendors in view"
-          value={`${safe.length} / ${totalVendors}`}
-          icon={<Users className="w-4 h-4" />}
-          variant="blue"
-        />
+        {/* Col 1 — Score Pre Award (gauge) */}
+        <div className="bg-card rounded-lg p-2 shadow-sm border border-border/50 flex items-center justify-center">
+          <GaugeChart value={scorePreAward} title="Score Pre Award" size="sm" suffix="%" />
+        </div>
 
         {/* Col 2 — Overall Status */}
         <div className="bg-card rounded-lg p-3 shadow-sm border border-border/50 relative overflow-hidden h-full">
@@ -200,17 +197,20 @@ export function PreAwardPage({ filters }: PreAwardPageProps) {
           </div>
         </div>
 
-        {/* Col 3 — Score Pre Award (gauge) */}
-        <div className="bg-card rounded-lg p-2 shadow-sm border border-border/50 flex items-center justify-center">
-          <GaugeChart value={scorePreAward} title="Score Pre Award" size="sm" suffix="%" />
-        </div>
-
-        {/* Col 4 — Vendor Global Risk */}
+        {/* Col 3 — Vendor Global Risk */}
         <KPICard
           title="Vendor Global Risk"
           value={riskLabel}
           icon={<ShieldAlert className="w-4 h-4" />}
           variant="yellow"
+        />
+
+        {/* Col 4 — Vendors in View */}
+        <KPICard
+          title="Vendors in view"
+          value={`${safe.length} / ${totalVendors}`}
+          icon={<Users className="w-4 h-4" />}
+          variant="blue"
         />
       </div>
 
