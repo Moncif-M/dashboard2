@@ -124,7 +124,7 @@ export function FilterPanel({ filters, onFilterChange }: FilterPanelProps) {
   }
 
   const activeFilterCount = Object.entries(filters).reduce((count, [key, value]) => {
-    if (key === "period") return count
+    if (key === "period" || key === "dateFrom" || key === "dateTo") return count
     if (typeof value === "string" && value !== "all" && value.trim() !== "") return count + 1
     return count
   }, 0)
@@ -132,8 +132,8 @@ export function FilterPanel({ filters, onFilterChange }: FilterPanelProps) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogTrigger asChild>
-        <Button 
-          variant="outline" 
+        <Button
+          variant="outline"
           className={cn(
             "gap-2 border-primary text-primary hover:bg-primary/5",
             activeFilterCount > 0 && "bg-primary/5"
@@ -152,7 +152,7 @@ export function FilterPanel({ filters, onFilterChange }: FilterPanelProps) {
         <DialogHeader>
           <DialogTitle className="text-xl font-semibold">Filters</DialogTitle>
         </DialogHeader>
-        
+
         <div className="grid grid-cols-2 gap-x-6 gap-y-5 py-4">
           <FilterSelect
             label="Fournisseur"
