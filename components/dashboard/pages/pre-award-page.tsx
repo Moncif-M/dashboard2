@@ -172,21 +172,19 @@ export function PreAwardPage({ filters }: PreAwardPageProps) {
   return (
     <div className="space-y-3">
 
-      {/* ── ROW 1: items-start → changed cards anchor to top and grow downward ── */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 items-start">
+      {/* ── 3-COL × 3-ROW GRID ── */}
+      <div className="grid grid-cols-3 gap-3" style={{ gridTemplateRows: "auto auto auto" }}>
 
-        {/* Vendors in view — taller, grows downward from top */}
-        <div className="h-44">
-          <KPICard
-            title="Vendors in view"
-            value={`${safe.length} / ${totalVendors}`}
-            icon={<Users className="w-5 h-5" />}
-            variant="blue"
-          />
-        </div>
+        {/* Row 1 Col 1 — Vendors in view */}
+        <KPICard
+          title="Vendors in view"
+          value={`${safe.length} / ${totalVendors}`}
+          icon={<Users className="w-5 h-5" />}
+          variant="blue"
+        />
 
-        {/* Tiering — same height as others */}
-        <div className="h-44">
+        {/* Row 1+2 Col 2 — Tiering spans rows 1 & 2 */}
+        <div className="row-span-2">
           <div className="rounded-xl p-4 shadow-sm border border-border/50 bg-card relative overflow-hidden h-full">
             <div className="absolute top-0 right-0 w-20 h-20 rounded-full -mr-8 -mt-8 bg-muted" />
             <div className="relative space-y-3">
@@ -229,41 +227,39 @@ export function PreAwardPage({ filters }: PreAwardPageProps) {
           </div>
         </div>
 
-        {/* Vendor Global Risk — taller, grows downward from top */}
-        <div className="h-44">
-          <KPICard
-            title="Vendor Global Risk"
-            value={riskLabelFromValue(Math.round(sum.risk / count))}
-            icon={<ShieldAlert className="w-5 h-5" />}
-            variant="yellow"
-          />
-        </div>
+        {/* Row 1 Col 3 — Successful Awards */}
+        <KPICard
+          title="Successful Awards"
+          value={sum.successfulAwards}
+          icon={<Trophy className="w-5 h-5" />}
+          variant="green"
+        />
 
-        {/* Successful Awards — taller, grows downward from top */}
-        <div className="h-44">
-          <KPICard
-            title="Successful Awards"
-            value={sum.successfulAwards}
-            icon={<Trophy className="w-5 h-5" />}
-            variant="green"
-          />
-        </div>
-      </div>
+        {/* Row 2 Col 1 — Vendor Global Risk */}
+        <KPICard
+          title="Vendor Global Risk"
+          value={riskLabelFromValue(Math.round(sum.risk / count))}
+          icon={<ShieldAlert className="w-5 h-5" />}
+          variant="yellow"
+        />
 
-      {/* ── ROW 2: items-end → changed cards anchor to bottom and grow upward ── */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 items-end">
+        {/* Row 2 Col 3 — Ongoing Bids */}
+        <KPICard
+          title="Ongoing Bids"
+          value={sum.ongoingBids}
+          icon={<Gavel className="w-5 h-5" />}
+          variant="default"
+        />
 
-        {/* Awarding Volume — taller, grows upward from bottom */}
-        <div className="h-44">
-          <KPICard
-            title="Awarding Volume"
-            value={formatMillions(sum.awardingVolume)}
-            icon={<Coins className="w-5 h-5" />}
-            variant="orange"
-          />
-        </div>
+        {/* Row 3 Col 1 — Awarding Volume */}
+        <KPICard
+          title="Awarding Volume"
+          value={formatMillions(sum.awardingVolume)}
+          icon={<Coins className="w-5 h-5" />}
+          variant="orange"
+        />
 
-        {/* Ongoing PO / Contracts — UNCHANGED, natural height */}
+        {/* Row 3 Col 2 — Ongoing PO / Contracts */}
         <KPICard
           title="Ongoing PO / Contracts"
           value={sum.ongoingPO}
@@ -271,25 +267,13 @@ export function PreAwardPage({ filters }: PreAwardPageProps) {
           variant="default"
         />
 
-        {/* Ongoing Bids — taller, grows upward from bottom */}
-        <div className="h-44">
-          <KPICard
-            title="Ongoing Bids"
-            value={sum.ongoingBids}
-            icon={<Gavel className="w-5 h-5" />}
-            variant="default"
-          />
-        </div>
-
-        {/* % of JESA Scope — taller, grows upward from bottom */}
-        <div className="h-44">
-          <KPICard
-            title="% of JESA Scope"
-            value={`${Math.round(sum.jesaScope / count)}%`}
-            icon={<PieChart className="w-5 h-5" />}
-            variant="blue"
-          />
-        </div>
+        {/* Row 3 Col 3 — % of JESA Scope */}
+        <KPICard
+          title="% of JESA Scope"
+          value={`${Math.round(sum.jesaScope / count)}%`}
+          icon={<PieChart className="w-5 h-5" />}
+          variant="blue"
+        />
       </div>
 
       {/* ── CHARTS ROW ── */}
