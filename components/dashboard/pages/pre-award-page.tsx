@@ -281,41 +281,6 @@ export function PreAwardPage({ filters }: PreAwardPageProps) {
         {/* Right 2 cols: 2x3 grid of all remaining KPI cards */}
         <div className="col-span-2 grid grid-cols-2 grid-rows-3 gap-1.5 min-h-0">
 
-          <KPICard
-            title="Successful Awards"
-            value={sum.successfulAwards}
-            icon={<Trophy className="w-4 h-4" />}
-            variant="green"
-          />
-
-          <KPICard
-            title="Ongoing Bids"
-            value={sum.ongoingBids}
-            icon={<Gavel className="w-4 h-4" />}
-            variant="default"
-          />
-
-          <KPICard
-            title="Awarding Volume"
-            value={formatMillions(sum.awardingVolume)}
-            icon={<Coins className="w-4 h-4" />}
-            variant="orange"
-          />
-
-          <KPICard
-            title="Ongoing PO / Contracts"
-            value={sum.ongoingPO}
-            icon={<FileText className="w-4 h-4" />}
-            variant="default"
-          />
-
-          <KPICard
-            title="% of JESA Scope"
-            value={`${Math.round(sum.jesaScope / count)}%`}
-            icon={<PieChart className="w-4 h-4" />}
-            variant="blue"
-          />
-
           <div className="rounded-lg p-2 shadow-sm border border-border/50 bg-card relative overflow-hidden">
             <div className="absolute top-0 right-0 w-14 h-14 rounded-full -mr-5 -mt-5 bg-muted" />
             <div className="relative flex flex-col h-full">
@@ -349,6 +314,41 @@ export function PreAwardPage({ filters }: PreAwardPageProps) {
               </div>
             </div>
           </div>
+
+          <KPICard
+            title="Ongoing Bids"
+            value={sum.ongoingBids}
+            icon={<Gavel className="w-4 h-4" />}
+            variant="default"
+          />
+
+          <KPICard
+            title="Awarding Volume"
+            value={formatMillions(sum.awardingVolume)}
+            icon={<Coins className="w-4 h-4" />}
+            variant="orange"
+          />
+
+          <KPICard
+            title="Ongoing PO / Contracts"
+            value={sum.ongoingPO}
+            icon={<FileText className="w-4 h-4" />}
+            variant="default"
+          />
+
+          <KPICard
+            title="Successful Awards"
+            value={sum.successfulAwards}
+            icon={<Trophy className="w-4 h-4" />}
+            variant="green"
+          />
+
+          <KPICard
+            title="% of JESA Scope"
+            value={`${Math.round(sum.jesaScope / count)}%`}
+            icon={<PieChart className="w-4 h-4" />}
+            variant="blue"
+          />
         </div>
       </div>
 
