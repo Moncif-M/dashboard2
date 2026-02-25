@@ -37,7 +37,7 @@ export function Dashboard() {
 
   return (
     <div className="min-h-screen bg-background">
-      <main className="max-w-7xl mx-auto px-4 lg:px-6 py-4">
+      <main className="max-w-5xl mx-auto px-3 lg:px-4 py-3">
 
         {/* Header */}
         <header className="sticky top-0 z-30 mb-4 bg-background/80 backdrop-blur-sm border-b border-border">

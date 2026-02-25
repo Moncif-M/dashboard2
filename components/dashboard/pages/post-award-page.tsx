@@ -26,7 +26,7 @@ function Pill({ label, tone }: { label: string; tone: "red" | "yellow" | "green"
       : tone === "yellow"
         ? "bg-amber-100 text-amber-700"
         : "bg-red-100 text-red-700"
-  return <span className={`inline-flex px-3 py-1 rounded-full text-xs font-semibold ${styles}`}>{label}</span>
+  return <span className={`inline-flex px-2 py-0.5 rounded-full text-[10px] font-semibold ${styles}`}>{label}</span>
 }
 
 function statusTone(status: Status): "red" | "yellow" | "green" {
@@ -56,31 +56,31 @@ function DataTable({
   }>
 }) {
   return (
-    <div className="bg-card rounded-xl shadow-sm border border-border/50 overflow-hidden">
-      <div className="px-4 py-3 border-b border-border/60">
-        <p className="text-sm font-semibold text-foreground">{title}</p>
+    <div className="bg-card rounded-lg shadow-sm border border-border/50 flex flex-col h-full overflow-hidden">
+      <div className="px-3 py-1 border-b border-border/60 flex-shrink-0">
+        <p className="text-xs font-semibold text-foreground">{title}</p>
       </div>
-      <div className="overflow-auto">
-        <table className="w-full">
-          <thead className="bg-muted/40 border-b border-border">
-            <tr>
-              <th className="px-3 py-2 text-left text-xs font-semibold text-muted-foreground uppercase">Contractor</th>
-              <th className="px-3 py-2 text-left text-xs font-semibold text-muted-foreground uppercase">Project</th>
-              <th className="px-3 py-2 text-left text-xs font-semibold text-muted-foreground uppercase">Status</th>
-              <th className="px-3 py-2 text-left text-xs font-semibold text-muted-foreground uppercase">Criticality</th>
-              <th className="px-3 py-2 text-left text-xs font-semibold text-muted-foreground uppercase">Discipline</th>
-              <th className="px-3 py-2 text-right text-xs font-semibold text-muted-foreground uppercase">Count</th>
+      <div className="overflow-y-auto flex-1">
+        <table className="w-full border-collapse">
+          <thead>
+            <tr className="bg-muted/60">
+              <th className="sticky top-0 z-10 bg-muted/90 backdrop-blur-sm px-2 py-1 text-left text-[10px] font-semibold text-muted-foreground uppercase border-b border-border">Contractor</th>
+              <th className="sticky top-0 z-10 bg-muted/90 backdrop-blur-sm px-2 py-1 text-left text-[10px] font-semibold text-muted-foreground uppercase border-b border-border">Project</th>
+              <th className="sticky top-0 z-10 bg-muted/90 backdrop-blur-sm px-2 py-1 text-left text-[10px] font-semibold text-muted-foreground uppercase border-b border-border">Status</th>
+              <th className="sticky top-0 z-10 bg-muted/90 backdrop-blur-sm px-2 py-1 text-left text-[10px] font-semibold text-muted-foreground uppercase border-b border-border">Criticality</th>
+              <th className="sticky top-0 z-10 bg-muted/90 backdrop-blur-sm px-2 py-1 text-left text-[10px] font-semibold text-muted-foreground uppercase border-b border-border">Discipline</th>
+              <th className="sticky top-0 z-10 bg-muted/90 backdrop-blur-sm px-2 py-1 text-right text-[10px] font-semibold text-muted-foreground uppercase border-b border-border">Count</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-border">
             {rows.map((r, idx) => (
               <tr key={`${r.contractor}-${idx}`} className="hover:bg-muted/20">
-                <td className="px-3 py-2 text-sm text-foreground">{r.contractor}</td>
-                <td className="px-3 py-2 text-sm text-muted-foreground">{r.project}</td>
-                <td className="px-3 py-2"><Pill label={r.status} tone={statusTone(r.status)} /></td>
-                <td className="px-3 py-2"><Pill label={r.criticality} tone={critTone(r.criticality)} /></td>
-                <td className="px-3 py-2 text-sm text-muted-foreground">{r.discipline}</td>
-                <td className="px-3 py-2 text-sm font-semibold text-foreground text-right">{r.count}</td>
+                <td className="px-2 py-1 text-xs text-foreground">{r.contractor}</td>
+                <td className="px-2 py-1 text-xs text-muted-foreground">{r.project}</td>
+                <td className="px-2 py-1"><Pill label={r.status} tone={statusTone(r.status)} /></td>
+                <td className="px-2 py-1"><Pill label={r.criticality} tone={critTone(r.criticality)} /></td>
+                <td className="px-2 py-1 text-xs text-muted-foreground">{r.discipline}</td>
+                <td className="px-2 py-1 text-xs font-semibold text-foreground text-right">{r.count}</td>
               </tr>
             ))}
           </tbody>
@@ -130,7 +130,6 @@ export function PostAwardPage({ filters }: PostAwardPageProps) {
   )
 
   const avgScoreClosedPct = Math.round(((sums.avgScoreClosed / count) / 5) * 100)
-  const contractPerContractant = Math.round(sums.contractants ? sums.contracts / count : sums.contracts / count)
   const scorePostAwardMM = Math.round(sums.disciplineMaterial / count)
   const scorePostAwardContract = Math.round(sums.disciplineContract / count)
 
@@ -153,12 +152,11 @@ export function PostAwardPage({ filters }: PostAwardPageProps) {
     return "High"
   }
 
-  // 4 KPI cards in a 2x2 grid (full width)
   const kpiCards = [
-    { title: "Nbre Contractants", value: sums.contractants, icon: <Users className="w-5 h-5" />, variant: "yellow" as const },
-    { title: "Nbre de contrat", value: sums.contracts, icon: <RotateCcw className="w-5 h-5" />, variant: "blue" as const },
-    { title: "Count of Claims", value: sums.claims, icon: <Gavel className="w-5 h-5" />, variant: "red" as const },
-    { title: "Change Requests", value: sums.changeRequests, icon: <Scale className="w-5 h-5" />, variant: "blue" as const },
+    { title: "Nbre Contractants", value: sums.contractants, icon: <Users className="w-4 h-4" />, variant: "yellow" as const },
+    { title: "Nbre de contrat", value: sums.contracts, icon: <RotateCcw className="w-4 h-4" />, variant: "blue" as const },
+    { title: "Count of Claims", value: sums.claims, icon: <Gavel className="w-4 h-4" />, variant: "red" as const },
+    { title: "Change Requests", value: sums.changeRequests, icon: <Scale className="w-4 h-4" />, variant: "blue" as const },
   ]
 
   const ncrRows = safe
@@ -184,32 +182,36 @@ export function PostAwardPage({ filters }: PostAwardPageProps) {
     }))
 
   return (
-    <div className="space-y-3">
+    <div className="space-y-1.5">
 
-      {/* 2x2 KPI cards — full width */}
-      <div className="grid grid-cols-2 gap-3">
+      {/* 4-col KPI row — much more compact */}
+      <div className="grid grid-cols-4 gap-1.5">
         {kpiCards.map((k) => (
           <KPICard key={k.title} title={k.title} value={k.value} icon={k.icon} variant={k.variant} />
         ))}
       </div>
 
-      {/* 3 gauges in one row: Score Post Award MM | Score Post Award Contract | Average Score Closed */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-        <div className="bg-card rounded-xl p-4 shadow-sm border border-border/50 flex items-center justify-center">
-          <GaugeChart value={avgScoreClosedPct} title="Average Score Closed" size="lg" suffix="%" />
+      {/* 3 gauges — reduced height */}
+      <div className="grid grid-cols-3 gap-1.5">
+        <div className="bg-card rounded-lg p-1.5 shadow-sm border border-border/50 flex items-center justify-center h-[110px]">
+          <GaugeChart value={avgScoreClosedPct} title="Average Score Closed" size="sm" suffix="%" />
         </div>
-        <div className="bg-card rounded-xl p-4 shadow-sm border border-border/50 flex items-center justify-center">
-          <GaugeChart value={scorePostAwardMM} title="Score Post Award MM" size="lg" suffix="%" />
+        <div className="bg-card rounded-lg p-1.5 shadow-sm border border-border/50 flex items-center justify-center h-[110px]">
+          <GaugeChart value={scorePostAwardMM} title="Score Post Award MM" size="sm" suffix="%" />
         </div>
-        <div className="bg-card rounded-xl p-4 shadow-sm border border-border/50 flex items-center justify-center">
-          <GaugeChart value={scorePostAwardContract} title="Score Post Award Contract" size="lg" suffix="%" />
+        <div className="bg-card rounded-lg p-1.5 shadow-sm border border-border/50 flex items-center justify-center h-[110px]">
+          <GaugeChart value={scorePostAwardContract} title="Score Post Award Contract" size="sm" suffix="%" />
         </div>
       </div>
 
-      {/* NCR & QOR tables */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
-        <DataTable title="NCR Count by Status / Contractor / Project" rows={ncrRows} />
-        <DataTable title="QOR Count by Status / Contractor / Project" rows={qorRows} />
+      {/* NCR & QOR tables — taller, sticky headers, internally scrollable */}
+      <div className="grid grid-cols-2 gap-1.5">
+        <div className="h-[280px] flex flex-col">
+          <DataTable title="NCR Count by Status / Contractor / Project" rows={ncrRows} />
+        </div>
+        <div className="h-[280px] flex flex-col">
+          <DataTable title="QOR Count by Status / Contractor / Project" rows={qorRows} />
+        </div>
       </div>
 
     </div>
