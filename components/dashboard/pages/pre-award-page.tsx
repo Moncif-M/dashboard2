@@ -184,10 +184,11 @@ export function PreAwardPage({ filters }: PreAwardPageProps) {
 
         {/* Row 1+2 Col 2 — Tiering spans rows 1 & 2 */}
         <div className="row-span-2">
-          <div className="rounded-lg p-2 shadow-sm border border-border/50 bg-card relative overflow-hidden h-full">
+          <div className="rounded-lg p-2 shadow-sm border border-border/50 bg-card relative overflow-hidden h-full flex flex-col">
             <div className="absolute top-0 right-0 w-16 h-16 rounded-full -mr-6 -mt-6 bg-muted" />
-            <div className="relative space-y-2">
-              <div className="flex items-center justify-between">
+            <div className="relative flex flex-col h-full">
+              {/* Header */}
+              <div className="flex items-center justify-between mb-2">
                 <div className="flex items-center gap-1.5">
                   <div className="p-1.5 rounded-md bg-muted">
                     <Layers className="w-3 h-3 text-muted-foreground" />
@@ -199,26 +200,22 @@ export function PreAwardPage({ filters }: PreAwardPageProps) {
                 </div>
                 <div className="text-right">
                   <p className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider">Selected Tier</p>
-                  <p className="text-[10px] font-semibold text-foreground">{selectedTier}</p>
+                  <p className="text-xs font-semibold text-foreground">{selectedTier}</p>
                 </div>
               </div>
-              <div className="space-y-1 text-[10px]">
-                <div className="flex items-center justify-between">
-                  <span className="text-muted-foreground">Tier 1</span>
-                  <span className="font-semibold text-foreground">{tierPct.tier1}%</span>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-muted-foreground">Tier 2</span>
-                  <span className="font-semibold text-foreground">{tierPct.tier2}%</span>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-muted-foreground">Tier 3</span>
-                  <span className="font-semibold text-foreground">{tierPct.tier3}%</span>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-muted-foreground">N/A</span>
-                  <span className="font-semibold text-foreground">{tierPct.na}%</span>
-                </div>
+              {/* Tier rows — flex-1 + justify-between to fill vertical space */}
+              <div className="flex flex-col flex-1 justify-between">
+                {[
+                  { label: "Tier 1", value: tierPct.tier1 },
+                  { label: "Tier 2", value: tierPct.tier2 },
+                  { label: "Tier 3", value: tierPct.tier3 },
+                  { label: "N/A",    value: tierPct.na },
+                ].map(({ label, value }) => (
+                  <div key={label} className="flex items-center justify-between">
+                    <span className="text-sm text-muted-foreground">{label}</span>
+                    <span className="text-sm font-bold text-[#666666]">{value}%</span>
+                  </div>
+                ))}
               </div>
             </div>
           </div>

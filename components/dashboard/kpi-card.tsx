@@ -48,7 +48,7 @@ export function KPICard({
           <p className="text-xs text-muted-foreground font-medium truncate">{title}</p>
         </div>
         {/* Value — centred */}
-        <p className="text-xl font-bold text-foreground mt-1.5 text-center">{value}</p>
+        <p className="text-xl font-bold text-[#666666] mt-1.5 text-center">{value}</p>
         {trend && (
           <p className="text-[10px] text-muted-foreground mt-1 text-center">
             <span className={trend.value >= 0 ? "text-emerald-600" : "text-red-600"}>
