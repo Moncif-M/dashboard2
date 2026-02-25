@@ -185,43 +185,45 @@ export function PreAwardPage({ filters }: PreAwardPageProps) {
           />
         </div>
 
-        {/* Tiering — UNCHANGED, natural height */}
-        <div className="rounded-xl p-4 shadow-sm border border-border/50 bg-card relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-20 h-20 rounded-full -mr-8 -mt-8 bg-muted" />
-          <div className="relative space-y-3">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <div className="p-2 rounded-lg bg-muted">
-                  <Layers className="w-4 h-4 text-muted-foreground" />
+        {/* Tiering — same height as others */}
+        <div className="h-44">
+          <div className="rounded-xl p-4 shadow-sm border border-border/50 bg-card relative overflow-hidden h-full">
+            <div className="absolute top-0 right-0 w-20 h-20 rounded-full -mr-8 -mt-8 bg-muted" />
+            <div className="relative space-y-3">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <div className="p-2 rounded-lg bg-muted">
+                    <Layers className="w-4 h-4 text-muted-foreground" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-muted-foreground font-medium">Tiering</p>
+                    <p className="text-xs text-muted-foreground">Distribution of vendors</p>
+                  </div>
                 </div>
-                <div>
-                  <p className="text-sm text-muted-foreground font-medium">Tiering</p>
-                  <p className="text-xs text-muted-foreground">Distribution of vendors</p>
+                <div className="text-right">
+                  <p className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider">
+                    Selected Tier
+                  </p>
+                  <p className="text-xs font-semibold text-foreground">{selectedTier}</p>
                 </div>
               </div>
-              <div className="text-right">
-                <p className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider">
-                  Selected Tier
-                </p>
-                <p className="text-xs font-semibold text-foreground">{selectedTier}</p>
-              </div>
-            </div>
-            <div className="space-y-1.5 text-xs">
-              <div className="flex items-center justify-between">
-                <span className="text-muted-foreground">Tier 1</span>
-                <span className="font-semibold text-foreground">{tierPct.tier1}%</span>
-              </div>
-              <div className="flex items-center justify-between">
-                <span className="text-muted-foreground">Tier 2</span>
-                <span className="font-semibold text-foreground">{tierPct.tier2}%</span>
-              </div>
-              <div className="flex items-center justify-between">
-                <span className="text-muted-foreground">Tier 3</span>
-                <span className="font-semibold text-foreground">{tierPct.tier3}%</span>
-              </div>
-              <div className="flex items-center justify-between">
-                <span className="text-muted-foreground">N/A</span>
-                <span className="font-semibold text-foreground">{tierPct.na}%</span>
+              <div className="space-y-1.5 text-xs">
+                <div className="flex items-center justify-between">
+                  <span className="text-muted-foreground">Tier 1</span>
+                  <span className="font-semibold text-foreground">{tierPct.tier1}%</span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-muted-foreground">Tier 2</span>
+                  <span className="font-semibold text-foreground">{tierPct.tier2}%</span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-muted-foreground">Tier 3</span>
+                  <span className="font-semibold text-foreground">{tierPct.tier3}%</span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-muted-foreground">N/A</span>
+                  <span className="font-semibold text-foreground">{tierPct.na}%</span>
+                </div>
               </div>
             </div>
           </div>
