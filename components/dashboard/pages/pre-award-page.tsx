@@ -22,9 +22,6 @@ import {
   CartesianGrid,
   Tooltip,
   ResponsiveContainer,
-  BarChart,
-  Bar,
-  Cell,
   Legend,
 } from "recharts"
 import { GaugeChart } from "../gauge-chart"
@@ -37,6 +34,12 @@ function riskLabelFromValue(v: number) {
   if (v <= 30) return "Low"
   if (v <= 50) return "Medium"
   return "High"
+}
+
+function riskColor(v: number) {
+  if (v <= 30) return "#10b981"
+  if (v <= 50) return "#f59e0b"
+  return "#ef4444"
 }
 
 function scoreColor(score: number) {
@@ -163,12 +166,11 @@ export function PreAwardPage({ filters }: PreAwardPageProps) {
     scorePreAward >= 90 ? "Very good" : scorePreAward >= 80 ? "Good" : scorePreAward >= 60 ? "Medium" : "Low"
 
   const riskValue = Math.round(sum.risk / count)
-  const riskLabel = riskLabelFromValue(riskValue)
 
   return (
     <div className="space-y-1.5">
 
-      {/* ── ROW 1: 4 KPI cards — same natural height as PostAward KPI row ── */}
+      {/* ── ROW 1: 4 KPI cards ── */}
       <div className="grid grid-cols-4 gap-1.5">
 
         {/* Col 1 — Overall Status */}
@@ -200,9 +202,13 @@ export function PreAwardPage({ filters }: PreAwardPageProps) {
         {/* Col 3 — Vendor Global Risk */}
         <KPICard
           title="Vendor Global Risk"
-          value={riskLabel}
+          value={
+            <span style={{ color: riskColor(riskValue) }}>
+              {riskLabelFromValue(riskValue)}
+            </span>
+          }
           icon={<ShieldAlert className="w-4 h-4" />}
-          variant="yellow"
+          variant={riskValue <= 30 ? "green" : riskValue <= 50 ? "yellow" : "red"}
         />
 
         {/* Col 4 — Vendors in View */}
